@@ -1,0 +1,43 @@
+# ─────────────────────────────────────────────
+#  Custom Object Detector — Training Config
+# ─────────────────────────────────────────────
+
+# ── Data ──────────────────────────────────────
+data_type: coco             # "custom" or "coco"
+
+# Custom dataset (data_type: custom)
+# img_dir:    data/images/train
+# label_dir:  data/labels/train
+# class_names:
+#   - person
+#   - car
+#   - bicycle
+
+# COCO dataset (data_type: coco)
+data_root: data/coco
+split: val2017
+
+# ── Model ─────────────────────────────────────
+img_size:   320             # square input resolution
+decoupled:  true            # true = YOLOX decoupled head (+0.8 mAP), false = coupled
+
+# Anchors (w, h) in pixels — run utils/anchors.py on your data to recompute
+anchors:
+  - [[10,  13], [16,  30], [33,  23]]   # P3 / stride 8  (small objects)
+  - [[30,  61], [62,  45], [59, 119]]   # P4 / stride 16 (medium objects)
+  - [[116, 90], [156,198], [373,326]]   # P5 / stride 32 (large objects)
+
+# ── Augmentation ──────────────────────────────
+mosaic_prob: 0.5            # probability of applying Mosaic per sample (0 = off)
+mixup_prob:  0.0            # probability of MixUp on top of Mosaic (0 = off)
+
+# ── Training ──────────────────────────────────
+epochs:      10
+batch_size:  4
+lr:          0.01
+num_workers: 0             # use 0 on Windows; increase on Linux/Mac
+device:      ""             # "" = auto (cuda if available, else cpu)
+save_dir:    runs/train
+
+# Resume from checkpoint (leave blank to start fresh)
+resume: ""
